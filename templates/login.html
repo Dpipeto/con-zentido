@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block titulo %}Entrar · Con Zentido{% endblock %}
+
+{% block contenido %}
+<div class="pagina-angosta">
+    <a class="volver" href="{{ url_for('inicio') }}">← Volver</a>
+    <h1 class="pagina-titulo">Entrar como administrador</h1>
+    <p class="pagina-intro">Con esta clave puedes responder dudas y actualizar el contenido del día. El resto del sitio sigue abierto para todas las personas.</p>
+
+    <form class="form-largo" action="{{ url_for('login') }}" method="post">
+        <input type="hidden" name="volver" value="{{ volver }}">
+        <label class="etiqueta" for="clave">Contraseña</label>
+        <input class="campo" id="clave" name="clave" type="password" autocomplete="current-password" autofocus required>
+        <button class="boton boton--grande" type="submit">Entrar</button>
+    </form>
+</div>
+{% endblock %}

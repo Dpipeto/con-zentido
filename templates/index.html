@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<section class="hero">
+    <div class="hero-interior">
+        <p class="hero-saludo">Bienvenido a</p>
+        <h1 class="hero-titulo">Con&nbsp;Zentido</h1>
+        <p class="hero-bajada">
+            Un blog para hablar sin filtros de salud mental, identidad y de todo lo
+            que nos pasa por dentro. Aquí no hay que tenerlo todo resuelto.
+        </p>
+        <div class="hero-acciones">
+            {% if es_admin %}
+                <a class="boton" href="{{ url_for('publicar') }}">Escribir una publicación</a>
+                <a class="boton boton--suave" href="{{ url_for('dudas') }}">Dejar una duda</a>
+            {% else %}
+                <a class="boton" href="{{ url_for('dudas') }}">Dejar una duda</a>
+                <a class="boton boton--suave" href="#publicaciones">Leer publicaciones</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<div class="tres-columnas">
+
+    {# ---------- Columna izquierda: buzón de dudas ---------- #}
+    <aside class="col-dudas" aria-label="Dudas">
+        <div class="modulo modulo--dudas">
+            <h2 class="modulo-titulo">Buzón de dudas</h2>
+            <p class="modulo-intro">Un lugar para preguntar eso que no te atreves a preguntar. Puedes hacerlo anónimo.</p>
+
+            <form class="form-mini" action="{{ url_for('dudas') }}" method="post">
+                <label class="etiqueta" for="d-nombre">Tu nombre (opcional)</label>
+                <input class="campo" id="d-nombre" name="nombre" type="text" placeholder="Anónimo" autocomplete="off">
+                <label class="etiqueta" for="d-pregunta">Tu duda</label>
+                <textarea class="campo" id="d-pregunta" name="pregunta" rows="3" placeholder="Escribe aquí…" required></textarea>
+                <button class="boton boton--bloque" type="submit">Enviar duda</button>
+            </form>
+        </div>
+
+        <div class="modulo">
+            <h2 class="modulo-titulo">Últimas dudas</h2>
+            {% if dudas %}
+                <ul class="lista-dudas">
+                    {% for d in dudas %}
+                        <li class="duda-mini">
+                            <p class="duda-mini-texto">“{{ d.pregunta }}”</p>
+                            <p class="duda-mini-meta">— {{ d.nombre }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a class="ver-mas" href="{{ url_for('dudas') }}">Ver todas las dudas →</a>
+            {% else %}
+                <p class="vacio">Todavía nadie ha preguntado nada. Anímate a ser el primero.</p>
+            {% endif %}
+        </div>
+    </aside>
+
+    {# ---------- Columna central: publicaciones ---------- #}
+    <div class="col-posts">
+        <div class="posts-encabezado" id="publicaciones">
+            <h2 class="seccion-titulo">Publicaciones</h2>
+            <div class="filtros" role="group" aria-label="Filtrar por tema">
+                <a class="chip {{ 'chip--activo' if not tema_activo }}" href="{{ url_for('inicio') }}">Todos</a>
+                {% for t in temas %}
+                    <a class="chip {{ 'chip--activo' if tema_activo == t }}" href="{{ url_for('inicio', tema=t) }}">{{ t }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if posts %}
+            <div class="lista-posts">
+                {% for p in posts %}
+                    <article class="post-card">
+                        <a class="post-card-tema" href="{{ url_for('inicio', tema=p.tema) }}">{{ p.tema }}</a>
+                        <h3 class="post-card-titulo">
+                            <a href="{{ url_for('ver_post', post_id=p.id) }}">{{ p.titulo }}</a>
+                        </h3>
+                        <p class="post-card-extracto">{{ p.extracto }}</p>
+                        <div class="post-card-pie">
+                            <div class="post-card-izq">
+                                <form class="megusta-form" action="{{ url_for('megusta', post_id=p.id) }}" method="post">
+                                    <input type="hidden" name="volver" value="{{ request.full_path }}">
+                                    <button class="megusta {{ 'megusta--activo' if p.id in liked_ids }}" type="submit"
+                                            aria-pressed="{{ 'true' if p.id in liked_ids else 'false' }}"
+                                            aria-label="Me gusta esta publicación">
+                                        <span class="megusta-icono" aria-hidden="true">{{ '♥' if p.id in liked_ids else '♡' }}</span>
+                                        <span class="megusta-conteo">{{ p.me_gusta }}</span>
+                                    </button>
+                                </form>
+                                <span class="post-card-meta">{{ p.autor }} · {{ p.creado_en | fecha }}</span>
+                            </div>
+                            <a class="post-card-leer" href="{{ url_for('ver_post', post_id=p.id) }}">Leer →</a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="vacio-grande">
+                <p>Aún no hay publicaciones{% if tema_activo %} sobre “{{ tema_activo }}”{% endif %}.</p>
+                {% if es_admin %}
+                    <a class="boton" href="{{ url_for('publicar') }}">Escribir la primera</a>
+                {% else %}
+                    <p class="vacio">Vuelve pronto: aquí irán apareciendo las publicaciones. Mientras tanto, puedes <a href="{{ url_for('dudas') }}">dejar una duda</a>.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    {# ---------- Columna derecha: contenido del día ---------- #}
+    {% include "_rail.html" %}
+
+</div>
+{% endblock %}

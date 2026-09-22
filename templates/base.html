@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Con Zentido{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+    <header class="cabecera">
+        <div class="cabecera-interior">
+            <a class="marca" href="{{ url_for('inicio') }}" aria-label="Con Zentido, inicio">
+                <svg class="marca-icono" viewBox="0 0 40 40" aria-hidden="true">
+                    <path d="M20 34c-1.2 0-8-4.6-11.2-9.4C6.2 20.9 6 17.6 8 15.2c2.2-2.6 6-2.4 8.2.2L20 20l3.8-4.6c2.2-2.6 6-2.8 8.2-.2 2 2.4 1.8 5.7-.8 9.4C28 29.4 21.2 34 20 34z"/>
+                </svg>
+                <span class="marca-texto">Con&nbsp;Zentido</span>
+            </a>
+
+            <nav class="menu" aria-label="Principal">
+                <a href="{{ url_for('inicio') }}">Inicio</a>
+                <a href="{{ url_for('dudas') }}">Dudas</a>
+                {% if es_admin %}
+                    <a href="{{ url_for('publicar') }}">Publicar</a>
+                    <a href="{{ url_for('panel') }}">Panel</a>
+                    <a href="{{ url_for('logout') }}">Salir</a>
+                    <a class="menu-cta" href="{{ url_for('publicar') }}">+ Escribir</a>
+                {% else %}
+                    <a class="menu-cta" href="{{ url_for('dudas') }}">Dejar una duda</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+        {% if mensajes %}
+            <div class="avisos">
+                {% for categoria, texto in mensajes %}
+                    <div class="aviso aviso--{{ categoria }}" role="status">{{ texto }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main id="contenido">
+        {% block contenido %}{% endblock %}
+    </main>
+
+    <footer class="pie">
+        <div class="pie-interior">
+            <p class="pie-lema">Un espacio con sentido para pensarnos y cuidarnos.</p>
+            <p class="pie-nota">
+                Si estás pasando por un momento difícil, no estás solo. Buscar ayuda
+                profesional es un acto de valentía.
+            </p>
+            <p class="pie-copy">Con Zentido · hecho con cariño 💜</p>
+        </div>
+    </footer>
+</body>
+</html>

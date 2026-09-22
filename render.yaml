@@ -1,0 +1,39 @@
+# Blueprint de Render para "Con Zentido".
+# Al conectar tu repositorio, Render lee este archivo y crea todo solo:
+# el servicio web, el disco persistente y las variables de entorno.
+#
+# IMPORTANTE: el disco persistente ("disk") solo funciona en planes de PAGO.
+# Por eso el plan aquí es "starter". Si quieres empezar gratis, mira el README
+# (sección "Publicar en Render") para la alternativa sin disco.
+
+services:
+  - type: web
+    name: con-zentido
+    runtime: python
+    plan: starter                      # necesario para poder usar disco persistente
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2
+
+    # Disco persistente: aquí vive la base de datos SQLite y NO se borra
+    # entre despliegues ni reinicios.
+    disk:
+      name: datos
+      mountPath: /var/data
+      sizeGB: 1
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.3"
+
+      # La base de datos se guarda dentro del disco persistente.
+      - key: DATABASE_PATH
+        value: /var/data/con_zentido.db
+
+      # Clave para las sesiones: Render genera un valor aleatorio y seguro.
+      - key: CON_ZENTIDO_SECRET
+        generateValue: true
+
+      # Contraseña de administrador: la escribes tú en el panel de Render
+      # (no queda guardada en el repositorio).
+      - key: CON_ZENTIDO_ADMIN
+        sync: false

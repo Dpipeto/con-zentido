@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block titulo %}Página no encontrada · Con Zentido{% endblock %}
+
+{% block contenido %}
+<div class="pagina-angosta pagina-centro">
+    <h1 class="error-numero">404</h1>
+    <p class="error-texto">Esta página no existe… pero tú sí, y eso ya es bastante.</p>
+    <a class="boton" href="{{ url_for('inicio') }}">Volver al inicio</a>
+</div>
+{% endblock %}

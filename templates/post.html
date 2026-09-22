@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ post.titulo }} · Con Zentido{% endblock %}
+
+{% block contenido %}
+<div class="dos-columnas">
+
+    <article class="articulo">
+        <a class="volver" href="{{ url_for('inicio') }}">← Volver a las publicaciones</a>
+
+        <a class="articulo-tema" href="{{ url_for('inicio', tema=post.tema) }}">{{ post.tema }}</a>
+        <h1 class="articulo-titulo">{{ post.titulo }}</h1>
+        <p class="articulo-meta">Por {{ post.autor }} · {{ post.creado_en | fecha }}</p>
+
+        <form class="megusta-form megusta-form--articulo" action="{{ url_for('megusta', post_id=post.id) }}" method="post">
+            <input type="hidden" name="volver" value="{{ request.path }}">
+            <button class="megusta {{ 'megusta--activo' if post.id in liked_ids }}" type="submit"
+                    aria-pressed="{{ 'true' if post.id in liked_ids else 'false' }}"
+                    aria-label="Me gusta esta publicación">
+                <span class="megusta-icono" aria-hidden="true">{{ '♥' if post.id in liked_ids else '♡' }}</span>
+                <span class="megusta-conteo">{{ post.me_gusta }}</span>
+                <span class="megusta-etiqueta">{{ 'Te gusta' if post.id in liked_ids else 'Me gusta' }}</span>
+            </button>
+        </form>
+
+        <div class="articulo-cuerpo">
+            {% for parrafo in post.cuerpo.split('\n\n') %}
+                <p>{{ parrafo }}</p>
+            {% endfor %}
+        </div>
+
+        {# ---------- Comentarios de las personas ---------- #}
+        <section class="comentarios" id="comentarios">
+            <h2 class="seccion-titulo">
+                Comentarios
+                <span class="conteo">{{ comentarios | length }}</span>
+            </h2>
+
+            <form class="form-comentar" action="{{ url_for('comentar', post_id=post.id) }}" method="post">
+                <label class="etiqueta" for="c-nombre">Tu nombre (opcional)</label>
+                <input class="campo" id="c-nombre" name="nombre" type="text" placeholder="Anónimo" autocomplete="off">
+                <label class="etiqueta" for="c-mensaje">Tu comentario</label>
+                <textarea class="campo" id="c-mensaje" name="mensaje" rows="3" placeholder="Comparte lo que piensas…" required></textarea>
+                <button class="boton" type="submit">Publicar comentario</button>
+            </form>
+
+            {% if comentarios %}
+                <ul class="lista-comentarios">
+                    {% for c in comentarios %}
+                        <li class="comentario">
+                            <div class="comentario-avatar" aria-hidden="true">{{ c.nombre[0] | upper }}</div>
+                            <div class="comentario-cuerpo">
+                                <p class="comentario-cabeza">
+                                    <span class="comentario-nombre">{{ c.nombre }}</span>
+                                    <span class="comentario-fecha">{{ c.creado_en | fecha }}</span>
+                                </p>
+                                <p class="comentario-texto">{{ c.mensaje }}</p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="vacio">Todavía no hay comentarios. Sé la primera persona en escribir uno.</p>
+            {% endif %}
+        </section>
+    </article>
+
+    {% include "_rail.html" %}
+
+</div>
+{% endblock %}

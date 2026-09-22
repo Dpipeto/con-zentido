@@ -1,0 +1,394 @@
+/* ==========================================================================
+   Con Zentido — hoja de estilos
+   Paleta: papel cálido + lavanda (calma/introspección) + salvia + durazno.
+   Tipografía: Bricolage Grotesque (títulos/UI) + Newsreader (lectura).
+   ========================================================================== */
+
+:root {
+    --papel:          #faf6f2;
+    --papel-hondo:    #f2ebe4;
+    --nube:           #ffffff;
+    --tinta:          #2c2735;
+    --tinta-suave:    #6b6478;
+    --linea:          #e7ddd4;
+
+    --lavanda:        #7c6fd1;
+    --lavanda-fuerte: #574399;
+    --lavanda-clara:  #ece7f8;
+
+    --durazno:        #ef9d74;
+    --durazno-claro:  #fbe6da;
+
+    --salvia:         #7fa886;
+    --salvia-clara:   #e3efe1;
+
+    --radio:      14px;
+    --radio-chico: 9px;
+    --sombra:     0 1px 2px rgba(44, 39, 53, .04), 0 8px 26px -18px rgba(44, 39, 53, .28);
+    --ancho:      1180px;
+    --fuente-ui:  "Bricolage Grotesque", system-ui, sans-serif;
+    --fuente-txt: "Newsreader", Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    margin: 0;
+    background: var(--papel);
+    color: var(--tinta);
+    font-family: var(--fuente-txt);
+    font-size: 1.06rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .marca-texto, .boton, .chip, .etiqueta,
+.tarjeta-titulo, .menu, .post-card-tema, .articulo-tema {
+    font-family: var(--fuente-ui);
+}
+
+a { color: var(--lavanda-fuerte); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+img { max-width: 100%; display: block; }
+
+/* Accesibilidad: enlace para saltar y foco visible ------------------------ */
+.saltar {
+    position: absolute; left: -999px; top: 0;
+    background: var(--tinta); color: #fff; padding: .6rem 1rem;
+    border-radius: 0 0 var(--radio-chico) 0; z-index: 100;
+}
+.saltar:focus { left: 0; }
+
+:focus-visible {
+    outline: 3px solid var(--lavanda);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ==========================================================================
+   Cabecera
+   ========================================================================== */
+.cabecera {
+    background: color-mix(in srgb, var(--papel) 80%, transparent);
+    backdrop-filter: saturate(1.4) blur(8px);
+    border-bottom: 1px solid var(--linea);
+    position: sticky; top: 0; z-index: 40;
+}
+.cabecera-interior {
+    max-width: var(--ancho); margin: 0 auto;
+    padding: .85rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.marca { display: inline-flex; align-items: center; gap: .55rem; text-decoration: none; color: var(--tinta); }
+.marca-icono { width: 30px; height: 30px; fill: var(--lavanda); flex: none; }
+.marca-texto { font-size: 1.4rem; font-weight: 800; letter-spacing: -.02em; }
+
+.menu { display: flex; align-items: center; gap: 1.4rem; font-weight: 600; }
+.menu a { color: var(--tinta-suave); text-decoration: none; font-size: .98rem; }
+.menu a:hover { color: var(--lavanda-fuerte); }
+.menu-cta {
+    background: var(--tinta); color: #fff !important;
+    padding: .5rem .95rem; border-radius: 999px;
+}
+.menu-cta:hover { background: var(--lavanda-fuerte); }
+
+/* ==========================================================================
+   Avisos (mensajes flash)
+   ========================================================================== */
+.avisos { max-width: var(--ancho); margin: 1rem auto 0; padding: 0 1.5rem; }
+.aviso {
+    font-family: var(--fuente-ui); font-size: .95rem; font-weight: 600;
+    padding: .7rem 1rem; border-radius: var(--radio-chico); margin-bottom: .5rem;
+}
+.aviso--ok    { background: var(--salvia-clara); color: #38614a; border: 1px solid #bcd7bd; }
+.aviso--error { background: var(--durazno-claro); color: #9a4a25; border: 1px solid #f0c3a7; }
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero {
+    max-width: var(--ancho); margin: 0 auto; padding: 3.4rem 1.5rem 1.4rem;
+}
+.hero-interior { max-width: 640px; }
+.hero-saludo {
+    font-family: var(--fuente-ui); font-weight: 600; color: var(--lavanda-fuerte);
+    margin: 0 0 .2rem; letter-spacing: .02em;
+}
+.hero-titulo {
+    font-size: clamp(2.6rem, 7vw, 4rem);
+    font-weight: 800; letter-spacing: -.03em; line-height: 1;
+    margin: 0 0 1rem; padding-bottom: .08em;
+    background: linear-gradient(105deg, var(--lavanda-fuerte), var(--lavanda) 55%, var(--durazno));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-bajada {
+    font-size: 1.22rem; color: var(--tinta-suave); margin: 0 0 1.6rem;
+    max-width: 46ch;
+}
+.hero-acciones { display: flex; flex-wrap: wrap; gap: .7rem; }
+
+/* ==========================================================================
+   Botones, chips, campos
+   ========================================================================== */
+.boton {
+    display: inline-block; font-family: var(--fuente-ui); font-weight: 600;
+    font-size: .98rem; cursor: pointer;
+    background: var(--lavanda-fuerte); color: #fff;
+    border: none; border-radius: 999px; padding: .7rem 1.35rem;
+    text-decoration: none; transition: transform .12s ease, background .15s ease;
+}
+.boton:hover { background: #46367e; transform: translateY(-1px); }
+.boton:active { transform: translateY(0); }
+.boton--suave { background: var(--lavanda-clara); color: var(--lavanda-fuerte); }
+.boton--suave:hover { background: #e0d7f4; }
+.boton--bloque { width: 100%; text-align: center; }
+.boton--grande { padding: .85rem 1.8rem; font-size: 1.05rem; }
+
+.chip {
+    display: inline-block; font-size: .85rem; font-weight: 600;
+    color: var(--tinta-suave); text-decoration: none;
+    background: var(--nube); border: 1px solid var(--linea);
+    padding: .32rem .8rem; border-radius: 999px; transition: .15s;
+}
+.chip:hover { border-color: var(--lavanda); color: var(--lavanda-fuerte); }
+.chip--activo { background: var(--tinta); color: #fff; border-color: var(--tinta); }
+
+.etiqueta {
+    display: block; font-family: var(--fuente-ui); font-weight: 600;
+    font-size: .86rem; color: var(--tinta-suave); margin: .8rem 0 .3rem;
+}
+.campo {
+    width: 100%; font-family: var(--fuente-txt); font-size: 1rem; color: var(--tinta);
+    background: var(--nube); border: 1px solid var(--linea);
+    border-radius: var(--radio-chico); padding: .65rem .8rem;
+}
+.campo:focus { border-color: var(--lavanda); outline: none; box-shadow: 0 0 0 3px var(--lavanda-clara); }
+textarea.campo { resize: vertical; line-height: 1.55; }
+.campo--alto { min-height: 15rem; }
+select.campo { appearance: none; }
+
+/* ==========================================================================
+   Rejilla de tres columnas (portada)
+   ========================================================================== */
+.tres-columnas {
+    max-width: var(--ancho); margin: 0 auto; padding: 1rem 1.5rem 3rem;
+    display: grid; grid-template-columns: 260px 1fr 280px; gap: 1.8rem;
+    align-items: start;
+}
+.dos-columnas {
+    max-width: var(--ancho); margin: 0 auto; padding: 2rem 1.5rem 3rem;
+    display: grid; grid-template-columns: 1fr 280px; gap: 2.4rem;
+    align-items: start;
+}
+
+/* ---- Columna de dudas ---- */
+.modulo {
+    background: var(--nube); border: 1px solid var(--linea);
+    border-radius: var(--radio); padding: 1.15rem; margin-bottom: 1.4rem;
+    box-shadow: var(--sombra);
+}
+.modulo--dudas {
+    background: linear-gradient(180deg, var(--lavanda-clara), var(--nube));
+    border-color: #ded3f3;
+}
+.modulo-titulo { font-size: 1.08rem; font-weight: 700; margin: 0 0 .3rem; letter-spacing: -.01em; }
+.modulo-intro { font-size: .95rem; color: var(--tinta-suave); margin: 0 0 .9rem; }
+.form-mini .etiqueta:first-child { margin-top: 0; }
+
+.lista-dudas { list-style: none; margin: 0; padding: 0; }
+.duda-mini { padding: .7rem 0; border-bottom: 1px dashed var(--linea); }
+.duda-mini:last-child { border-bottom: none; }
+.duda-mini-texto { margin: 0; font-style: italic; }
+.duda-mini-meta { margin: .2rem 0 0; font-family: var(--fuente-ui); font-size: .8rem; color: var(--tinta-suave); }
+.ver-mas { display: inline-block; margin-top: .6rem; font-family: var(--fuente-ui); font-weight: 600; font-size: .9rem; text-decoration: none; }
+.ver-mas:hover { text-decoration: underline; }
+
+/* ---- Columna central de publicaciones ---- */
+.posts-encabezado { margin-bottom: 1.2rem; }
+.seccion-titulo { font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; margin: 0 0 .8rem; }
+.seccion-titulo--espaciado { margin-top: 2.6rem; }
+.conteo {
+    font-size: .85rem; background: var(--lavanda-clara); color: var(--lavanda-fuerte);
+    padding: .1rem .5rem; border-radius: 999px; vertical-align: middle; margin-left: .3rem;
+}
+.filtros { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+.lista-posts { display: flex; flex-direction: column; gap: 1.1rem; }
+.post-card {
+    background: var(--nube); border: 1px solid var(--linea);
+    border-radius: var(--radio); padding: 1.35rem 1.5rem;
+    box-shadow: var(--sombra); transition: border-color .15s ease, transform .15s ease;
+}
+.post-card:hover { border-color: #d8ccf0; transform: translateY(-2px); }
+.post-card-tema {
+    display: inline-block; font-size: .78rem; font-weight: 600; text-decoration: none;
+    color: var(--lavanda-fuerte); background: var(--lavanda-clara);
+    padding: .2rem .6rem; border-radius: 999px; margin-bottom: .6rem;
+}
+.post-card-titulo { font-size: 1.5rem; line-height: 1.15; margin: 0 0 .5rem; font-weight: 500; font-family: var(--fuente-txt); letter-spacing: -.01em; }
+.post-card-titulo a { color: var(--tinta); text-decoration: none; }
+.post-card-titulo a:hover { color: var(--lavanda-fuerte); }
+.post-card-extracto { margin: 0 0 1rem; color: var(--tinta-suave); }
+.post-card-pie { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.post-card-izq { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+.post-card-meta { font-family: var(--fuente-ui); font-size: .82rem; color: var(--tinta-suave); }
+.post-card-leer { font-family: var(--fuente-ui); font-weight: 600; font-size: .9rem; text-decoration: none; white-space: nowrap; }
+.post-card-leer:hover { text-decoration: underline; }
+
+/* ---- Botón de me gusta ---- */
+.megusta-form { margin: 0; }
+.megusta {
+    display: inline-flex; align-items: center; gap: .35rem;
+    font-family: var(--fuente-ui); font-weight: 600; font-size: .85rem;
+    color: var(--tinta-suave); cursor: pointer;
+    background: var(--papel-hondo); border: 1px solid var(--linea);
+    padding: .3rem .7rem; border-radius: 999px;
+    transition: background .15s ease, color .15s ease, border-color .15s ease, transform .1s ease;
+}
+.megusta:hover { border-color: #e6b6c4; color: #c8447a; }
+.megusta:active { transform: scale(.94); }
+.megusta-icono { font-size: 1rem; line-height: 1; }
+.megusta--activo { background: #fbe4ec; border-color: #f0bcd0; color: #c8447a; }
+.megusta--activo .megusta-icono { color: #d94f86; }
+
+.megusta-form--articulo { margin: 0 0 1.8rem; }
+.megusta-form--articulo .megusta { font-size: .95rem; padding: .45rem 1rem; }
+.megusta-etiqueta { margin-left: .1rem; }
+
+.duda-pendiente {
+    font-family: var(--fuente-ui); font-size: .82rem; font-weight: 600;
+    color: var(--tinta-suave); background: var(--papel-hondo);
+    display: inline-block; padding: .25rem .7rem; border-radius: 999px; margin: 0;
+}
+
+/* ==========================================================================
+   Columna derecha (canción, debate, mensaje)
+   ========================================================================== */
+.rail { display: flex; flex-direction: column; gap: 1.2rem; position: sticky; top: 5rem; }
+.tarjeta { border-radius: var(--radio); padding: 1.15rem 1.2rem; box-shadow: var(--sombra); border: 1px solid transparent; }
+.tarjeta-titulo {
+    font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    margin: 0 0 .5rem; opacity: .75;
+}
+.tarjeta--cancion { background: var(--nube); border-color: var(--linea); }
+.cancion-nombre { font-family: var(--fuente-ui); font-weight: 700; font-size: 1.12rem; margin: 0 0 .35rem; letter-spacing: -.01em; }
+.cancion-nota { margin: 0 0 .7rem; color: var(--tinta-suave); font-size: .95rem; }
+.cancion-enlace { font-family: var(--fuente-ui); font-weight: 600; font-size: .92rem; text-decoration: none; }
+.cancion-enlace:hover { text-decoration: underline; }
+
+.tarjeta--debate { background: linear-gradient(160deg, #4a3b8c, var(--lavanda-fuerte)); color: #fff; border: none; }
+.tarjeta--debate .tarjeta-titulo { color: #d9d0f6; opacity: 1; }
+.debate-texto { font-family: var(--fuente-ui); font-weight: 700; font-size: 1.2rem; line-height: 1.25; margin: 0 0 .6rem; letter-spacing: -.01em; }
+.debate-invita { margin: 0; font-size: .9rem; color: #ded6f7; }
+
+.tarjeta--mensaje { background: var(--salvia-clara); border-color: #c8e0c6; }
+.tarjeta--mensaje .tarjeta-titulo { color: #3d6b4c; }
+.mensaje-texto { margin: 0; font-size: 1.05rem; color: #35513f; }
+
+/* ==========================================================================
+   Artículo (post individual)
+   ========================================================================== */
+.volver { display: inline-block; font-family: var(--fuente-ui); font-weight: 600; font-size: .9rem; text-decoration: none; margin-bottom: 1.2rem; }
+.volver:hover { text-decoration: underline; }
+.articulo-tema, .articulo-meta { display: block; }
+.articulo-tema {
+    width: max-content; font-size: .8rem; font-weight: 600; text-decoration: none;
+    color: var(--lavanda-fuerte); background: var(--lavanda-clara);
+    padding: .22rem .7rem; border-radius: 999px; margin-bottom: .8rem;
+}
+.articulo-titulo { font-size: clamp(2rem, 5vw, 2.9rem); font-weight: 800; line-height: 1.08; letter-spacing: -.025em; margin: 0 0 .6rem; }
+.articulo-meta { font-family: var(--fuente-ui); font-size: .9rem; color: var(--tinta-suave); margin: 0 0 1.8rem; }
+.articulo-cuerpo { font-size: 1.18rem; line-height: 1.75; max-width: 68ch; }
+.articulo-cuerpo p { margin: 0 0 1.2rem; }
+
+/* ---- Comentarios ---- */
+.comentarios { margin-top: 3rem; border-top: 1px solid var(--linea); padding-top: 2rem; max-width: 68ch; }
+.form-comentar { background: var(--papel-hondo); border-radius: var(--radio); padding: 1.2rem; margin-bottom: 2rem; }
+.form-comentar .etiqueta:first-child { margin-top: 0; }
+.form-comentar .boton { margin-top: 1rem; }
+
+.lista-comentarios { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.3rem; }
+.comentario { display: flex; gap: .85rem; }
+.comentario-avatar {
+    flex: none; width: 40px; height: 40px; border-radius: 50%;
+    display: grid; place-items: center; font-family: var(--fuente-ui); font-weight: 700;
+    color: #fff; background: linear-gradient(135deg, var(--lavanda), var(--durazno));
+}
+.comentario-cabeza { margin: 0 0 .2rem; display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+.comentario-nombre { font-family: var(--fuente-ui); font-weight: 700; }
+.comentario-fecha { font-family: var(--fuente-ui); font-size: .8rem; color: var(--tinta-suave); }
+.comentario-texto { margin: 0; }
+
+/* ==========================================================================
+   Páginas de formulario (publicar, dudas, panel)
+   ========================================================================== */
+.pagina-angosta { max-width: 720px; margin: 0 auto; padding: 2.4rem 1.5rem 3.5rem; }
+.pagina-centro { text-align: center; }
+.pagina-titulo { font-size: clamp(2rem, 5vw, 2.6rem); font-weight: 800; letter-spacing: -.025em; margin: .2rem 0 .5rem; }
+.pagina-intro { font-size: 1.15rem; color: var(--tinta-suave); margin: 0 0 1.8rem; max-width: 55ch; }
+.form-largo .boton { margin-top: 1.4rem; }
+.fila { display: flex; gap: 1rem; }
+.fila-item { flex: 1; }
+.grupo { border: 1px solid var(--linea); border-radius: var(--radio); padding: 1rem 1.2rem 1.3rem; margin: 0 0 1.4rem; background: var(--nube); }
+.grupo legend { font-family: var(--fuente-ui); font-weight: 700; padding: 0 .4rem; color: var(--lavanda-fuerte); }
+
+/* ---- Dudas (página completa) ---- */
+.lista-dudas-full { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1.1rem; }
+.duda-card { background: var(--nube); border: 1px solid var(--linea); border-radius: var(--radio); padding: 1.25rem 1.4rem; box-shadow: var(--sombra); }
+.duda-pregunta { font-family: var(--fuente-ui); font-weight: 600; font-size: 1.15rem; margin: 0 0 .3rem; }
+.duda-meta { font-family: var(--fuente-ui); font-size: .82rem; color: var(--tinta-suave); margin: 0 0 .8rem; }
+.duda-respuesta { background: var(--salvia-clara); border-radius: var(--radio-chico); padding: .9rem 1rem; }
+.duda-respuesta-titulo { font-family: var(--fuente-ui); font-weight: 700; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: #3d6b4c; margin: 0 0 .3rem; }
+.duda-respuesta p:last-child { margin: 0; }
+.duda-responder summary { font-family: var(--fuente-ui); font-weight: 600; font-size: .9rem; color: var(--lavanda-fuerte); cursor: pointer; }
+.duda-responder form { margin-top: .8rem; }
+.duda-responder .boton { margin-top: .7rem; }
+
+/* ---- Vacíos ---- */
+.vacio { color: var(--tinta-suave); font-style: italic; }
+.vacio-grande { background: var(--nube); border: 1px dashed var(--linea); border-radius: var(--radio); padding: 2.5rem 1.5rem; text-align: center; }
+.vacio-grande p { color: var(--tinta-suave); margin: 0 0 1rem; }
+
+/* ---- 404 ---- */
+.error-numero { font-size: 5rem; font-weight: 800; margin: 1rem 0 0; color: var(--lavanda); letter-spacing: -.03em; }
+.error-texto { font-size: 1.25rem; color: var(--tinta-suave); margin: 0 0 1.6rem; }
+
+/* ==========================================================================
+   Pie de página
+   ========================================================================== */
+.pie { background: var(--tinta); color: #d8d2e2; margin-top: 2rem; }
+.pie-interior { max-width: var(--ancho); margin: 0 auto; padding: 2.6rem 1.5rem; text-align: center; }
+.pie-lema { font-family: var(--fuente-ui); font-weight: 700; font-size: 1.3rem; color: #fff; margin: 0 0 .5rem; letter-spacing: -.01em; }
+.pie-nota { max-width: 46ch; margin: 0 auto 1rem; color: #b3aac6; }
+.pie-copy { font-family: var(--fuente-ui); font-size: .85rem; color: #8f86a6; margin: 0; }
+
+/* ==========================================================================
+   Responsivo
+   ========================================================================== */
+@media (max-width: 980px) {
+    .tres-columnas { grid-template-columns: 1fr; }
+    .col-dudas { order: 2; }
+    .col-posts { order: 1; }
+    .rail { order: 3; position: static; flex-direction: row; flex-wrap: wrap; }
+    .rail .tarjeta { flex: 1 1 240px; }
+    .dos-columnas { grid-template-columns: 1fr; }
+    .dos-columnas .rail { flex-direction: row; }
+}
+
+@media (max-width: 620px) {
+    body { font-size: 1rem; }
+    .cabecera-interior { flex-wrap: wrap; }
+    .menu { gap: 1rem; }
+    .menu a:not(.menu-cta) { display: none; }
+    .hero { padding-top: 2.4rem; }
+    .fila { flex-direction: column; gap: 0; }
+    .rail { flex-direction: column; }
+    .rail .tarjeta { flex: 1 1 auto; }
+}
+
+/* Respetar preferencia de menos movimiento */
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+}

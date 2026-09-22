@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block titulo %}Dudas · Con Zentido{% endblock %}
+
+{% block contenido %}
+<div class="pagina-angosta">
+    <a class="volver" href="{{ url_for('inicio') }}">← Volver</a>
+    <h1 class="pagina-titulo">Buzón de dudas</h1>
+    <p class="pagina-intro">Pregunta lo que quieras sobre salud mental, identidad o lo que sea. Puedes hacerlo de forma anónima. Las respuestas aparecen abajo.</p>
+
+    <form class="form-largo" action="{{ url_for('dudas') }}" method="post">
+        <label class="etiqueta" for="nombre">Tu nombre (opcional)</label>
+        <input class="campo" id="nombre" name="nombre" type="text" placeholder="Anónimo" autocomplete="off">
+        <label class="etiqueta" for="pregunta">Tu duda</label>
+        <textarea class="campo" id="pregunta" name="pregunta" rows="4" placeholder="No hay preguntas tontas. Escribe con confianza." required></textarea>
+        <button class="boton" type="submit">Enviar duda</button>
+    </form>
+
+    <h2 class="seccion-titulo seccion-titulo--espaciado">Dudas de la comunidad</h2>
+
+    {% if dudas %}
+        <ul class="lista-dudas-full">
+            {% for d in dudas %}
+                <li class="duda-card" id="duda-{{ d.id }}">
+                    <p class="duda-pregunta">{{ d.pregunta }}</p>
+                    <p class="duda-meta">— {{ d.nombre }} · {{ d.creado_en | fecha }}</p>
+
+                    {% if d.respuesta %}
+                        <div class="duda-respuesta">
+                            <p class="duda-respuesta-titulo">Respuesta</p>
+                            <p>{{ d.respuesta }}</p>
+                        </div>
+                    {% elif es_admin %}
+                        <details class="duda-responder">
+                            <summary>Responder esta duda</summary>
+                            <form action="{{ url_for('responder_duda', duda_id=d.id) }}" method="post">
+                                <textarea class="campo" name="respuesta" rows="3" placeholder="Escribe una respuesta con cariño y respeto…" required></textarea>
+                                <button class="boton boton--suave" type="submit">Guardar respuesta</button>
+                            </form>
+                        </details>
+                    {% else %}
+                        <p class="duda-pendiente">Aún sin responder</p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="vacio">Todavía no hay dudas. Anímate a escribir la primera.</p>
+    {% endif %}
+</div>
+{% endblock %}

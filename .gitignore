@@ -1,0 +1,17 @@
+# Base de datos local (en Render vive en el disco persistente, no en el repo)
+con_zentido.db
+*.db
+*.db-wal
+*.db-shm
+
+# Python
+__pycache__/
+*.pyc
+
+# Entornos virtuales
+venv/
+.venv/
+env/
+
+# Variables de entorno locales
+.env

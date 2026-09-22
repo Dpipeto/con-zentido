@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block titulo %}Escribir · Con Zentido{% endblock %}
+
+{% block contenido %}
+<div class="pagina-angosta">
+    <a class="volver" href="{{ url_for('inicio') }}">← Volver</a>
+    <h1 class="pagina-titulo">Escribir una publicación</h1>
+    <p class="pagina-intro">Cuenta tu historia, comparte algo que aprendiste o abre un tema. Lo que escribas puede ayudar a alguien más.</p>
+
+    <form class="form-largo" action="{{ url_for('publicar') }}" method="post">
+        <label class="etiqueta" for="titulo">Título</label>
+        <input class="campo" id="titulo" name="titulo" type="text" placeholder="Un buen título invita a leer" required>
+
+        <div class="fila">
+            <div class="fila-item">
+                <label class="etiqueta" for="tema">Tema</label>
+                <select class="campo" id="tema" name="tema">
+                    {% for t in temas %}
+                        <option value="{{ t }}">{{ t }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="fila-item">
+                <label class="etiqueta" for="autor">Tu nombre (opcional)</label>
+                <input class="campo" id="autor" name="autor" type="text" placeholder="Anónimo" autocomplete="off">
+            </div>
+        </div>
+
+        <label class="etiqueta" for="extracto">Resumen corto (opcional)</label>
+        <input class="campo" id="extracto" name="extracto" type="text" placeholder="Una frase que aparecerá en la portada">
+
+        <label class="etiqueta" for="cuerpo">Contenido</label>
+        <textarea class="campo campo--alto" id="cuerpo" name="cuerpo" rows="12" placeholder="Escribe aquí. Deja una línea en blanco para separar párrafos." required></textarea>
+
+        <button class="boton boton--grande" type="submit">Publicar</button>
+    </form>
+</div>
+{% endblock %}

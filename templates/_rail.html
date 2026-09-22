@@ -1,0 +1,28 @@
+{# Columna derecha reutilizable: canción del día, tema a debatir y mensaje/fun fact #}
+<aside class="rail" aria-label="Contenido del día">
+
+    <section class="tarjeta tarjeta--cancion">
+        <p class="tarjeta-titulo">Canción del día</p>
+        <p class="cancion-nombre">{{ diario.cancion_titulo }}</p>
+        {% if diario.cancion_nota %}
+            <p class="cancion-nota">{{ diario.cancion_nota }}</p>
+        {% endif %}
+        {% if diario.cancion_enlace %}
+            <a class="cancion-enlace" href="{{ diario.cancion_enlace }}" target="_blank" rel="noopener">
+                Escuchar ↗
+            </a>
+        {% endif %}
+    </section>
+
+    <section class="tarjeta tarjeta--debate">
+        <p class="tarjeta-titulo">Tema a debatir</p>
+        <p class="debate-texto">{{ diario.tema_debate }}</p>
+        <p class="debate-invita">¿Tú qué opinas? Cuéntanoslo en los comentarios de cualquier publicación.</p>
+    </section>
+
+    <section class="tarjeta tarjeta--mensaje">
+        <p class="tarjeta-titulo">{{ diario.mensaje_tipo or 'Mensaje del día' }}</p>
+        <p class="mensaje-texto">{{ diario.mensaje }}</p>
+    </section>
+
+</aside>

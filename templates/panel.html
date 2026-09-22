@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block titulo %}Panel · Con Zentido{% endblock %}
+
+{% block contenido %}
+<div class="pagina-angosta">
+    <a class="volver" href="{{ url_for('inicio') }}">← Volver</a>
+    <h1 class="pagina-titulo">Panel del día</h1>
+    <p class="pagina-intro">Actualiza la canción, el tema a debatir y el mensaje que aparecen en la barra lateral.</p>
+
+    <form class="form-largo" action="{{ url_for('panel') }}" method="post">
+
+        <fieldset class="grupo">
+            <legend>Canción del día</legend>
+            <label class="etiqueta" for="cancion_titulo">Título</label>
+            <input class="campo" id="cancion_titulo" name="cancion_titulo" type="text" value="{{ diario.cancion_titulo }}">
+            <label class="etiqueta" for="cancion_enlace">Enlace (opcional)</label>
+            <input class="campo" id="cancion_enlace" name="cancion_enlace" type="url" value="{{ diario.cancion_enlace }}">
+            <label class="etiqueta" for="cancion_nota">Nota (opcional)</label>
+            <input class="campo" id="cancion_nota" name="cancion_nota" type="text" value="{{ diario.cancion_nota }}">
+        </fieldset>
+
+        <fieldset class="grupo">
+            <legend>Tema a debatir</legend>
+            <label class="etiqueta" for="tema_debate">Pregunta o tema</label>
+            <input class="campo" id="tema_debate" name="tema_debate" type="text" value="{{ diario.tema_debate }}">
+        </fieldset>
+
+        <fieldset class="grupo">
+            <legend>Mensaje / Fun fact</legend>
+            <label class="etiqueta" for="mensaje_tipo">Tipo</label>
+            <input class="campo" id="mensaje_tipo" name="mensaje_tipo" type="text" value="{{ diario.mensaje_tipo }}" placeholder="Mensaje motivacional o Fun fact">
+            <label class="etiqueta" for="mensaje">Texto</label>
+            <textarea class="campo" id="mensaje" name="mensaje" rows="3">{{ diario.mensaje }}</textarea>
+        </fieldset>
+
+        <button class="boton boton--grande" type="submit">Guardar cambios</button>
+    </form>
+</div>
+{% endblock %}
